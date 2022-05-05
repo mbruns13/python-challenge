@@ -23,47 +23,58 @@ with open(csvpath) as csvfile:
         # count the number of values from the date column
         totalMonths = len(allMonths)
         
-        #row[0].split("-")
-        
         # adding all values in profits/losses column to one list
         amount.append(row[1])
         
-    # count the total of all of the values in this list aka net total amt of profit/losses
-    for t in range(len(amount)):
-        netTotal += int(amount[t])
+# count the total of all of the values in this list aka net total amt of profit/losses
+for t in range(len(amount)):
+    netTotal += int(amount[t])
     
-    # need to first find changes in profit per period, then calculate average
-    # change is the very last value in row[1] minus the first (non-header) value in row[1]
-    
-    # use lastIndex variable to store the integer to call the last value of the list amount[]
-    lastIndex = len(amount) - 1
-    # use change variable to hold the difference between the last item in the list and the first item
-    change = int(amount[lastIndex]) - int(amount[0])
-    # calculate average change
-    averageChange = round((change / (totalMonths - 1)),2)
-    
-    # The greatest increase in profits (date and amount) over the entire period
+# need to first find changes in profit per period, then calculate average
+# change is the very last value in row[1] minus the first (non-header) value in row[1]
 
-    # The greatest decrease in profits (date and amount) over the entire period
+# use change variable to hold the difference between the last item in the list [-1] and the first item [0]
+change = int(amount[-1]) - int(amount[0])
+# calculate average change, round to two decimal points
+averageChange = round((change / (totalMonths - 1)),2)
     
-    
-    # analysis results should match:
-    # Total Months: 86 - DONE
-    # Total: $22564198 - DONE
-    # Average Change: $-8311.11
-    # Greatest Increase in Profits: Aug-16 ($1862002)
-    # Greatest Decrease in Profits: Feb-14 ($-1825558)
+# The greatest increase in profits (date and amount) over the entire period
+greatestIncrease = 0
+greatestIncreaseIndex = 0
 
-    analysis = f'''Financial Analysis
+for i in range(len(amount)):
+    currentMonthlyChange = int(amount[i]) - int(amount[i-1])
+    if greatestIncrease < currentMonthlyChange:
+        greatestIncrease = currentMonthlyChange
+        greatestIncreaseIndex = (i)
+
+# The greatest decrease in profits (date and amount) over the entire period
+greatestDecrease = 0
+greatestDecreaseIndex = 0
+
+for i in range(len(amount)):
+    currentMonthlyChange = int(amount[i]) - int(amount[i-1])
+    if greatestDecrease > currentMonthlyChange:
+        greatestDecrease = currentMonthlyChange
+        greatestDecreaseIndex = (i)
+    
+# analysis results should match:
+# Total Months: 86 - DONE
+# Total: $22564198 - DONE
+# Average Change: $-8311.11 - DONE
+# Greatest Increase in Profits: Aug-16 ($1862002)
+# Greatest Decrease in Profits: Feb-14 ($-1825558)
+
+analysis = f'''Financial Analysis
 ----------------------------
 Total Months: {totalMonths}
 Total: ${netTotal}
 Average Change: ${averageChange}
-Greatest Increase in Profits: ($)
-Greatest Decrease in Profits: ($) '''
+Greatest Increase in Profits: {allMonths[greatestIncreaseIndex]} (${greatestIncrease})
+Greatest Decrease in Profits: {allMonths[greatestDecreaseIndex]} (${greatestDecrease})'''
     
     # print results to terminal
-    print(analysis)
+print(analysis)
 
 
 # path for txt file with analysis
