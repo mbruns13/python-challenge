@@ -36,23 +36,34 @@ with open(csvpath) as csvfile:
     for t in range(len(amount)):
         netTotal += int(amount[t])
     
+    # need to first find changes in profit per period, then calculate average
+    averageChange = 0
+    
+    # The greatest increase in profits (date and amount) over the entire period
+
+    # The greatest decrease in profits (date and amount) over the entire period
     
     
+    # print results to terminal - results should match:
+    # Total Months: 86 - DONE
+    # Total: $22564198 - DONE
+    # Average Change: $-8311.11
+    # Greatest Increase in Profits: Aug-16 ($1862002)
+    # Greatest Decrease in Profits: Feb-14 ($-1825558)
+
+    analysis = f'''Financial Analysis
+----------------------------
+Total Months: {totalMonths}
+Total: ${netTotal}
+Average Change: ${averageChange}
+Greatest Increase in Profits: ($)
+Greatest Decrease in Profits: ($) '''
     
-    
-    
-    # print results:
-    print("Financial Analysis")
-    print("----------------------------")
-    print(f"Total Months: {totalMonths}")
-    print(f"Total: {netTotal}")
+    print(analysis)
 
 
-
-# The changes in "Profit/Losses" over the entire period, and then the average of those changes
-
-
-# The greatest increase in profits (date and amount) over the entire period
-
-
-# The greatest decrease in profits (date and amount) over the entire period
+# path for txt file with analysis
+file = 'analysis/analysis.txt'
+# open text file, write mode
+with open(file, 'w') as text:
+    text.write(analysis)
