@@ -1,9 +1,3 @@
-# In this challenge, you are tasked with creating a Python script to analyze the financial 
-# records of your company. You will give a set of financial data called budget_data.csv. 
-# The dataset is composed of two columns: "Date" and "Profit/Losses". 
-# (Thankfully, your company has rather lax standards for accounting, so the records are simple.)
-
-# Your task is to create a Python script that analyzes the records to calculate each of the following:
 import os
 import csv
 
@@ -29,6 +23,8 @@ with open(csvpath) as csvfile:
         # count the number of values from the date column
         totalMonths = len(allMonths)
         
+        #row[0].split("-")
+        
         # adding all values in profits/losses column to one list
         amount.append(row[1])
         
@@ -37,14 +33,21 @@ with open(csvpath) as csvfile:
         netTotal += int(amount[t])
     
     # need to first find changes in profit per period, then calculate average
-    averageChange = 0
+    # change is the very last value in row[1] minus the first (non-header) value in row[1]
+    
+    # use lastIndex variable to store the integer to call the last value of the list amount[]
+    lastIndex = len(amount) - 1
+    # use change variable to hold the difference between the last item in the list and the first item
+    change = int(amount[lastIndex]) - int(amount[0])
+    # calculate average change
+    averageChange = round((change / (totalMonths - 1)),2)
     
     # The greatest increase in profits (date and amount) over the entire period
 
     # The greatest decrease in profits (date and amount) over the entire period
     
     
-    # print results to terminal - results should match:
+    # analysis results should match:
     # Total Months: 86 - DONE
     # Total: $22564198 - DONE
     # Average Change: $-8311.11
@@ -59,6 +62,7 @@ Average Change: ${averageChange}
 Greatest Increase in Profits: ($)
 Greatest Decrease in Profits: ($) '''
     
+    # print results to terminal
     print(analysis)
 
 
@@ -66,4 +70,5 @@ Greatest Decrease in Profits: ($) '''
 file = 'analysis/analysis.txt'
 # open text file, write mode
 with open(file, 'w') as text:
+    # write results into text file
     text.write(analysis)
