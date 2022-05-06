@@ -12,9 +12,8 @@ netTotal = 0
 # open the file in "read" mode ('r') and store the contents in the variable "text"
 with open(csvpath) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
-    #print(csvreader)
     
-    # Read the header row first - from class - need?
+    # Read the header row first - from class
     csv_header = next(csvreader)
 
     for row in csvreader:
@@ -62,9 +61,10 @@ for i in range(len(amount)):
 # Total Months: 86 - DONE
 # Total: $22564198 - DONE
 # Average Change: $-8311.11 - DONE
-# Greatest Increase in Profits: Aug-16 ($1862002)
-# Greatest Decrease in Profits: Feb-14 ($-1825558)
+# Greatest Increase in Profits: Aug-16 ($1862002) - DONE
+# Greatest Decrease in Profits: Feb-14 ($-1825558) - DONE
 
+# setting analysis/results to variable to print and write into the txt file
 analysis = f'''Financial Analysis
 ----------------------------
 Total Months: {totalMonths}
@@ -73,7 +73,7 @@ Average Change: ${averageChange}
 Greatest Increase in Profits: {allMonths[greatestIncreaseIndex]} (${greatestIncrease})
 Greatest Decrease in Profits: {allMonths[greatestDecreaseIndex]} (${greatestDecrease})'''
     
-    # print results to terminal
+# print results to terminal
 print(analysis)
 
 
