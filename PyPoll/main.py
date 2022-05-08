@@ -4,9 +4,13 @@ import csv
 # path to csv file in resources folder
 csvpath = os.path.join('Resources', 'election_data.csv')
 
+# creating empty lists to add to when reading in csv file
 ballotID = []
 county = []
 selectedCandidates = []
+
+# creating empty dictionary to fill in with candidate name and votes
+candidateVotes = {}
 
 # open the file in "read" mode ('r') and store the contents in the variable "text"
 with open(csvpath) as csvfile:
@@ -19,74 +23,57 @@ with open(csvpath) as csvfile:
         ballotID.append(row[0])
         county.append(row[1])
         selectedCandidates.append(row[2])
-
+        
 # The total number of votes cast
 totalVotes = len(ballotID)
 
 # A complete list of candidates who received votes
-# sorting candidates alphabetically in new list
-sortedSelectedCandidates = []
-sortedSelectedCandidates.extend(selectedCandidates)
-sortedSelectedCandidates.sort()
-# new list to contain the name of each candidate voted for
-candidateList = []
-for c in range(len(sortedSelectedCandidates)):
-    if sortedSelectedCandidates[c] != sortedSelectedCandidates[c-1]:
-        candidateList.append(sortedSelectedCandidates[c])
-#print(candidateList) - checked, prints three names so will call index values 0, 1, and 2
+for c in range(len(selectedCandidates)):
+    # if candidate name is already a key in dict, add one to its value
+    candidateVotes[selectedCandidates[c]] = candidateVotes.get(selectedCandidates[c],0) + 1
 
-# The total number of votes each candidate won
-candidate0Votes = selectedCandidates.count(candidateList[0])
-candidate1Votes = selectedCandidates.count(candidateList[1])
-candidate2Votes = selectedCandidates.count(candidateList[2])
+# place candidate names into list 'candidates'
+candidates = list(candidateVotes.keys())
+# place votes per candidate into list 'votes'
+votes = list(candidateVotes.values())
+percentage = []
 
-# The percentage of votes each candidate won
-candidate0Percentage = round(((candidate0Votes / totalVotes) * 100),3)
-candidate1Percentage = round(((candidate1Votes / totalVotes) * 100),3)
-candidate2Percentage = round(((candidate2Votes / totalVotes) * 100),3)
-
-# The winner of the election based on popular vote
-winner = ""
-if candidate0Votes > candidate1Votes and candidate0Votes > candidate2Votes:
-    winner = candidateList[0]
-elif candidate1Votes > candidate0Votes and candidate1Votes > candidate2Votes:
-    winner = candidateList[1]
-elif candidate2Votes > candidate0Votes and candidate2Votes > candidate1Votes:
-    winner = candidateList[2]
-
-#print(winner) - checked
-
-# Your analysis should look similar to the following:
-
-    # Election Results
-    # -------------------------
-    # Total Votes: 369711 - DONE
-    # -------------------------
-    # Charles Casper Stockham: 23.049% (85213) - DONE
-    # Diana DeGette: 73.812% (272892) - DONE
-    # Raymon Anthony Doane: 3.139% (11606) - DONE
-    # -------------------------
-    # Winner: Diana DeGette - DONE
-    # -------------------------
-
-# setting analysis/results to variable to print and write into the txt file
-analysis = f'''Election Results
--------------------------
-Total Votes: {totalVotes}
--------------------------
-{candidateList[0]}: {candidate0Percentage}% ({candidate0Votes})
-{candidateList[1]}: {candidate1Percentage}% ({candidate1Votes})
-{candidateList[2]}: {candidate2Percentage}% ({candidate2Votes})
--------------------------
-Winner: {winner}
--------------------------'''
+# calculating percentage of total votes for each candidate
+for i in range(len(votes)):
+    percentage.append(round(((votes[i] / totalVotes)*100), 3))
     
-# print results to terminal
-print(analysis)
+maxVotes = 0
+maxIndex = 0
+# finding max number of votes in list of total votes per candidate
+for i, n in enumerate(votes):
+    if maxVotes == 0 or n > maxVotes:
+        maxVotes = n
+        maxIndex = i
+# using the index of the max value in votes to id the candidate with the corresponding max number of votes
+winner = candidates[maxIndex]
+
+print("Election Results")
+print("-------------------------")
+print(f"Total Votes: {totalVotes}")
+print("-------------------------")
+for i in range(len(candidates)):
+    print(f"{candidates[i]}: {percentage[i]}% ({votes[i]})")
+print("-------------------------")
+print(f"Winner: {winner}")
+print("-------------------------")
+
 
 # path for txt file with analysis
 file = 'analysis/analysis.txt'
 # open text file, write mode
 with open(file, 'w') as text:
     # write results into text file
-    text.write(analysis)
+    text.write("Election Results\n")
+    text.write("-------------------------\n")
+    text.write(f"Total Votes: {totalVotes}\n")
+    text.write("-------------------------\n")
+    for i in range(len(candidates)):
+        text.write(f"{candidates[i]}: {percentage[i]}% ({votes[i]})\n")
+    text.write("-------------------------\n")
+    text.write(f"Winner: {winner}\n")
+    text.write("-------------------------\n")
