@@ -76,4 +76,4 @@ with open(file, 'w') as text:
         text.write(f"{candidates[i]}: {percentage[i]}% ({votes[i]})\n")
     text.write("-------------------------\n")
     text.write(f"Winner: {winner}\n")
-    text.write("-------------------------\n")
+    text.write("-------------------------")
