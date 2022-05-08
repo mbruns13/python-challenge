@@ -6,7 +6,7 @@ csvpath = os.path.join('Resources', 'election_data.csv')
 
 ballotID = []
 county = []
-selectedCandidate = []
+selectedCandidates = []
 
 # open the file in "read" mode ('r') and store the contents in the variable "text"
 with open(csvpath) as csvfile:
@@ -18,7 +18,7 @@ with open(csvpath) as csvfile:
     for row in csvreader:
         ballotID.append(row[0])
         county.append(row[1])
-        selectedCandidate.append(row[2])
+        selectedCandidates.append(row[2])
 
 # The total number of votes cast
 totalVotes = len(ballotID)
@@ -26,19 +26,19 @@ totalVotes = len(ballotID)
 # A complete list of candidates who received votes
 # sorting candidates alphabetically in new list
 sortedSelectedCandidates = []
-sortedSelectedCandidates.extend(selectedCandidate)
+sortedSelectedCandidates.extend(selectedCandidates)
 sortedSelectedCandidates.sort()
 # new list to contain the name of each candidate voted for
 candidateList = []
-for c in range(len(selectedCandidate)):
+for c in range(len(sortedSelectedCandidates)):
     if sortedSelectedCandidates[c] != sortedSelectedCandidates[c-1]:
         candidateList.append(sortedSelectedCandidates[c])
 #print(candidateList) - checked, prints three names so will call index values 0, 1, and 2
 
 # The total number of votes each candidate won
-candidate0Votes = selectedCandidate.count(candidateList[0])
-candidate1Votes = selectedCandidate.count(candidateList[1])
-candidate2Votes = selectedCandidate.count(candidateList[2])
+candidate0Votes = selectedCandidates.count(candidateList[0])
+candidate1Votes = selectedCandidates.count(candidateList[1])
+candidate2Votes = selectedCandidates.count(candidateList[2])
 
 # The percentage of votes each candidate won
 candidate0Percentage = round(((candidate0Votes / totalVotes) * 100),3)
@@ -79,8 +79,7 @@ Total Votes: {totalVotes}
 {candidateList[2]}: {candidate2Percentage}% ({candidate2Votes})
 -------------------------
 Winner: {winner}
--------------------------
-'''
+-------------------------'''
     
 # print results to terminal
 print(analysis)

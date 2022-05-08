@@ -72,7 +72,7 @@ Total: ${netTotal}
 Average Change: ${averageChange}
 Greatest Increase in Profits: {allMonths[greatestIncreaseIndex]} (${greatestIncrease})
 Greatest Decrease in Profits: {allMonths[greatestDecreaseIndex]} (${greatestDecrease})'''
-    
+
 # print results to terminal
 print(analysis)
 
