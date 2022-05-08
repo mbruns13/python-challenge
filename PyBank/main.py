@@ -42,6 +42,7 @@ greatestIncrease = 0
 greatestIncreaseIndex = 0
 
 for i in range(len(amount)):
+    # checking each monthly change to find the max / greatest increase
     currentMonthlyChange = int(amount[i]) - int(amount[i-1])
     if greatestIncrease < currentMonthlyChange:
         greatestIncrease = currentMonthlyChange
@@ -52,6 +53,7 @@ greatestDecrease = 0
 greatestDecreaseIndex = 0
 
 for i in range(len(amount)):
+    # checking each monthly change to find the min / greatest decrease
     currentMonthlyChange = int(amount[i]) - int(amount[i-1])
     if greatestDecrease > currentMonthlyChange:
         greatestDecrease = currentMonthlyChange
